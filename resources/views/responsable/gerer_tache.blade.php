@@ -6,7 +6,7 @@
 
 
 
-<!-- DATA TABLE-->
+<!-- main-->
 <section class="p-t-20">
  <div class="container">
      <div class="row">
@@ -224,7 +224,7 @@
      </div>
  </div>
 </section>
-<!-- END DATA TABLE-->
+<!-- END main-->
 
 
 <!-- Modal -->

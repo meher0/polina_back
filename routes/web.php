@@ -6,16 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Responsable\ResponsableController;
 use App\Http\Controllers\Technicien\TechnicienController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,36 +22,40 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //********route admin******** */
 Route::group(['prefix'=>'admin', 'middleware'=>['isAdmin','auth','PreventBackHistory']], function(){
-    Route::get('dashboard',      [DashboardController::class,'Index'])->name('admin.dashboard');
-    Route::get('consultercompte',[AdminController::class,'GetAllUsers'])->name('admin.consultercompte');
-    Route::get('ajoutercompte'  ,[AdminController::class,'FormeAddAccount'])->name('admin.ajoutercompte');
-    Route::post('storeaccount'  ,[AdminController::class,'AddAccount'])->name('admin.storeaccount');
-    Route::get('search'  ,       [AdminController::class,'SearchAccount'])->name('admin.search');
-    Route::put('banned',         [AdminController::class,'BannedAccount'])->name('admin.banned');
-    Route::put('inbanned' ,      [AdminController::class,'InbannedAccount'])->name('admin.inbanned');
+    Route::get('dashboard',      [DashboardController::class,'index'])->name('admin.dashboard');
+    Route::get('consultercompte',[AdminController::class,'showAllUsers'])->name('admin.consultercompte');
+    Route::get('ajoutercompte'  ,[AdminController::class,'showAddAccount'])->name('admin.ajoutercompte');
+    Route::post('storeaccount'  ,[AdminController::class,'handleAddAccount'])->name('admin.storeaccount');
+    Route::get('search'  ,       [AdminController::class,'handleSearchAccount'])->name('admin.search');
+    Route::put('banned',         [AdminController::class,'handleBannedAccount'])->name('admin.banned');
+    Route::put('inbanned' ,      [AdminController::class,'handleInbannedAccount'])->name('admin.inbanned');
 
 
-    
+
 });
 
 
 //********************route ResponsableService********************** */
 Route::group(['prefix'=>'responsable', 'middleware'=>['isResponsable','auth','PreventBackHistory']], function(){
-    Route::get('dashboard' ,           [ResponsableController::class,'Accueil'])->name('responsable.dashboard');
-    Route::get('gerer_tache' ,         [ResponsableController::class,'GetAllTache'])->name('responsable.gerer_tache');
-    Route::get('tester' ,              [ResponsableController::class,'tester'])->name('responsable.tester');
-    Route::post('add_tache' ,          [ResponsableController::class,'AddTache'])->name('responsable.add_tache');
-    Route::put('refuser_tache/{id}' ,  [ResponsableController::class,'RefuserTache'])->name('responsable.refuser_tache');
-    Route::put('accepter_tache/{id}' , [ResponsableController::class,'AccepterTache'])->name('responsable.accepter_tache');
-    Route::get('delete_tache/{id}' ,   [ResponsableController::class,'DeleteTache'])->name('responsable.delete_tache');
+    Route::get('dashboard' ,                 [ResponsableController::class,'Accueil'])->name('responsable.dashboard');
+    Route::get('list_fournisseurs' ,         [ResponsableController::class,'showListFournisseurs'])->name('responsable.list_fournisseurs');
+    Route::get('gerer_tache' ,               [ResponsableController::class,'showGetAllTache'])->name('responsable.gerer_tache');
+    Route::post('add_reclamation_materiel' , [ResponsableController::class,'handleReclamerMateriel'])->name('responsable.add_reclamation_materiel');
+    Route::get('fetch_reclamation_materiel' ,[ResponsableController::class,'showGetReclamationMateriel'])->name('responsable.fetch_reclamation_materiel');
+    Route::post('add_tache' ,                [ResponsableController::class,'handleAddTache'])->name('responsable.add_tache');
+    Route::put('refuser_tache/{id}' ,        [ResponsableController::class,'handleRefuserTache'])->name('responsable.refuser_tache');
+    Route::put('accepter_tache/{id}' ,       [ResponsableController::class,'handleAccepterTache'])->name('responsable.accepter_tache');
+    Route::get('delete_tache/{id}' ,         [ResponsableController::class,'handleDeleteTache'])->name('responsable.delete_tache');
+    Route::get('delete_reclamation_materiel/{id}', [ResponsableController::class,'handleDeleteReclamationMateriel'])->name('responsable.delete_reclamation_materiel');
 });
 
 
 //*******************route technicien maintenance******************** */
 Route::group(['prefix'=>'technicien', 'middleware'=>['isTechnicien','auth','PreventBackHistory']], function(){
     Route::get('dashboard' ,           [TechnicienController::class,'Accueil'])->name('technicien.dashboard');
-    Route::get('gestion_tache' ,       [TechnicienController::class,'GestionTache'])->name('technicien.gestion_tache');
-    Route::put('repondre_tache/{id}' , [TechnicienController::class,'RepondreTache'])->name('technicien.repondre_tache');
+    Route::get('gestion_tache' ,       [TechnicienController::class,'showGestionTache'])->name('technicien.gestion_tache');
+    Route::put('repondre_tache/{id}' , [TechnicienController::class,'handleRepondreTache'])->name('technicien.repondre_tache');
+    Route::get('markasread/{id}' ,     [TechnicienController::class,'handleMarkAsRead'])->name('technicien.markasread');
 });
 
 
@@ -76,4 +71,3 @@ Route::get('/notify', [App\Http\Controllers\HomeController::class, 'Notify'])->n
 
 
 
-   

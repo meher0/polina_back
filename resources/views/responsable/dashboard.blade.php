@@ -55,7 +55,7 @@
                     <div class="row">
                         <div class="col-md-6 col-lg-3">
                             <div class="statistic__item statistic__item--green">
-                                <h2 class="number">10,368</h2>
+                                <h2 class="number">{{  $countTacheEffectuer }}</h2>
                                 <span class="desc">Tache effectue</span>
                                 <div class="icon">
                                     <i class="fa-solid fa-check "></i>
@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-md-6 col-lg-3">
                             <div class="statistic__item statistic__item--orange">
-                                <h2 class="number">388,688</h2>
+                                <h2 class="number">{{  $countTacheRefuser }}</h2>
                                 <span class="desc">Tache en attente</span>
                                 <div class="icon">
                                     <i class="fa-solid fa-hourglass "></i>

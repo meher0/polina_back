@@ -212,9 +212,11 @@
                      
                     </a>
                     <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
+                  
+                          
+                     
                       
-                      
-                     @foreach ($messages as $message)
+                     @forelse ($messages as $message)
                          
                 
                       <li class="nav-item">
@@ -228,8 +230,10 @@
                           <span class="message">{{ $message->body }}  </span>
                         </a>
                       </li>
-
-                      @endforeach
+                      @empty
+                      <span>no messages</span>
+                      @endforelse
+                    
                       <li class="nav-item">
                         <div class="text-center">
                           <a href="http://localhost:8000/chatify" class="dropdown-item">

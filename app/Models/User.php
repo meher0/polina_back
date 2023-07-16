@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Tache;
+use App\Models\MaterielReclamer;
 
 
 class User extends Authenticatable
@@ -61,4 +62,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Tache::class, 'user_id');
     }
+
+    public function materiel()
+    {
+        return $this->hasOne(MaterielReclamer::class, 'user_id');
+    }
+
+
 }

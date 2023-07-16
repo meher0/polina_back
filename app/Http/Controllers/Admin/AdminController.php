@@ -17,7 +17,7 @@ use Carbon\Carbon;
 
 class AdminController extends Controller
 {
-    public function GetAllUsers () {
+    public function showGetAllUsers () {
         $id = Auth::user()->id;
         $messages = ChMessage::where('from_id','<>',$id)
         ->where('to_id',$id)
@@ -31,29 +31,29 @@ class AdminController extends Controller
 
 
     public function images($id){
-        
+
         return view('admin.images');
     }
 
 
-    public function FormeAddAccount () {
+    public function showAddAccount () {
         $id = Auth::user()->id;
         $messages = ChMessage::where('from_id','<>',$id)
         ->where('to_id',$id)
         ->where('seen',0)
         ->get();
         $timenow = carbon::now();
-    
+
         return view ('admin.forme_add_accout',compact('messages','timenow'));
     }
-  
 
 
-    public function AddAccount(Request $request){
+
+    public function handleAddAccount(Request $request){
         $users =  new User();
-  
-       
-        $search = User::where('email','=',$email)->get();
+
+
+        $search = User::where('email','=',$request->email)->get();
         if ($search->count()) {
             return back()->with('alert_red','this account has been exist');
         }else{
@@ -74,7 +74,7 @@ class AdminController extends Controller
      }
 
 
-     public function BannedAccount(Request $request){
+     public function handleBannedAccount(Request $request){
         $data = User::find($request->id);
         $banned ='1';
             $data->status = $banned;
@@ -83,7 +83,7 @@ class AdminController extends Controller
      }
 
 
-     public function InbannedAccount(Request $request){
+     public function handleInbannedAccount(Request $request){
         $data = User::find($request->id);
         $banned ='0';
             $data->status = $banned;
@@ -91,7 +91,7 @@ class AdminController extends Controller
         return back()->with('alert_green','Accound is inbanned !!');
      }
 
-     public function SearchAccount (Request $request){
+     public function handleSearchAccount (Request $request){
         $id = Auth::user()->id;
       $messages = ChMessage::where('from_id','<>',$id)
       ->where('to_id',$id)
@@ -116,7 +116,7 @@ class AdminController extends Controller
                 return back()->with([
                     'status' => 'Account not exist '
                 ]);
-            }   
+            }
      }
-   
+
 }

@@ -38,6 +38,19 @@
     <!-- Main CSS-->
     <link href="../../../assets/font_client/css/theme.css" rel="stylesheet" media="all">
 
+    <style>
+        .badge{
+            font-size: 15px;
+            font-weight: normal ;
+            line-height: 13px;
+            padding: 2px 6px;
+            position: absolute;
+            right: -10px;
+            top: -8px; 
+            color: white;
+            background: #ff4b5a;
+        }
+    </style>
 </head>
 
 <body class="animsition">
@@ -52,13 +65,17 @@
                         </a>
                     </div>
                     <div class="header__tool">
-                        <div class="header-button-item has-noti js-item-menu">
+                        <div class="header-button-item js-item-menu">
                             <i class="zmdi zmdi-notifications"></i>
+                            @if (auth()->user()->unreadNotifications->count())
+                                <span class="badge bg-red">{{ $count_notify }}</span>
+                            @else
+                                
+                            @endif
+                            
                             <div class="notifi-dropdown js-dropdown">
-                                <div class="notifi__title">
-                                    <p>You have 3 Notifications</p>
-                                </div>
-                                @forelse (auth()->user()->notifications as $notification)
+                               
+                                @forelse (auth()->user()->unreadNotifications as $notification)
                                 <div class="notifi__item">
                                     <div class="bg-c1 img-cir img-40">
                                         <i class="zmdi zmdi-email-open"></i>
@@ -67,6 +84,10 @@
                                         <p>{{  $notification->data['msg'] }}</p>
                                         <span class="date">{{ $notification->created_at }}</span>
                                     </div>
+
+                                  
+                                        <a href="{{ url('technicien/markasread',$notification->id) }}" class="btn btn-danger" style="height: 40px;" >Mark As Read</a>
+                                 
                                 </div>
                                  
                                 @empty
@@ -198,7 +219,7 @@
                                 <nav class="navbar-sidebar2 navbar-sidebar3">
                                     <ul class="list-unstyled navbar__list">
                                         <li class="{{ (Request::path()=='technicien/dashboard' ? 'active' : '') }}">
-                                            <a class="js-arrow" href="#">
+                                            <a class="js-arrow" href="{{ url('technicien/dashboard') }}">
                                                 <i class="fas fa-tachometer-alt"></i>Accueil
                                             </a>
                                         </li>

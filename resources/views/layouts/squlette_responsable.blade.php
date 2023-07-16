@@ -62,21 +62,28 @@
                     </div>
                     <div class="header__navbar">
                         <ul class="list-unstyled">
-                            <li class="has-sub">
+                            <li class="{{ (Request::path()=='responsable/dashboard' ? 'active' : '') }}">
                                 <a href="{{ url('responsable/dashboard') }}">
                                     <i class="fas fa-home"></i>Accueil
                                     <span class="bot-line"></span>
                                 </a>
                             </li> 
-                            <li class="has-sub">
+                            <li class="{{ (Request::path()=='responsable/gerer_tache' ? 'active' : '') }}">
                                 <a href="{{ url('responsable/gerer_tache') }}">
                                     <i class="fas fa-list"></i>Gestionnaire des taches
                                     <span class="bot-line"></span>
                                 </a>
                             </li> 
+
+                            <li class="{{ (Request::path()=='responsable/list_fournisseurs' ? 'active' : '') }}">
+                                <a href="{{ url('responsable/list_fournisseurs') }}">
+                                    <i class="fas fa-list"></i>Liste des fournisseurs
+                                    <span class="bot-line"></span>
+                                </a>
+                            </li> 
                             
-                            <li class="has-sub">
-                                <a href="#">
+                            <li class="{{ (Request::path()=='responsable/fetch_reclamation_materiel' ? 'active' : '') }}">
+                                <a href="fetch_reclamation_materiel">
                                     <i class="fas fa-file"></i>Gestionnaire des reclamations
                                     <span class="bot-line"></span>
                                 </a>
@@ -87,66 +94,34 @@
                     <div class="header__tool">
 
                         <div class="header-button-item js-item-menu">
-                            <span class="badge">6</span>
+                            @if ($messages->count() <> 0)
+                              <span class="badge bg-red">{{ $messages->count() }}</span>
+                            @else
+                                  
+                            @endif
                             <i class="zmdi zmdi-email"></i>
                             <div class="notifi-dropdown notifi-dropdown--no-bor js-dropdown">
-                                <div class="notifi__title">
-                                    <p>You have 3 Notifications</p>
-                                </div>
-                                <div class="notifi__item">
+                                @forelse ($messages as $message)
+                                <a href="http://localhost:8000/chatify/{{ $message->from_id }}" class="notifi__item">
                                     <div class="bg-c1 img-cir img-40">
                                         <i class="zmdi zmdi-email-open"></i>
                                     </div>
                                     <div class="content">
-                                        <p>You got a email notification</p>
-                                        <span class="date">April 12, 2018 06:50</span>
+                                        <p>{{ $message->body }} </p>
+                                        <span class="date">{{  $message->created_at->diffInMinutes($timenow) }} min ago</span>
                                     </div>
-                                </div>
+                                </a>
+        
+                                @empty
+                               <span> no messages </span>
+                                @endforelse
                                
                                 <div class="notifi__footer">
-                                    <a href="#">All Messages</a>
+                                    <a href="http://localhost:8000/chatify">All Messages</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="header-button-item  js-item-menu">
-                            <span class="badge">6</span>
-                            <i class="zmdi zmdi-notifications"></i>
-                            <div class="notifi-dropdown notifi-dropdown--no-bor js-dropdown">
-                                <div class="notifi__title">
-                                    <p>You have 3 Notifications</p>
-                                </div>
-                                <div class="notifi__item">
-                                    <div class="bg-c1 img-cir img-40">
-                                        <i class="zmdi zmdi-email-open"></i>
-                                    </div>
-                                    <div class="content">
-                                        <p>You got a email notification</p>
-                                        <span class="date">April 12, 2018 06:50</span>
-                                    </div>
-                                </div>
-                                <div class="notifi__item">
-                                    <div class="bg-c2 img-cir img-40">
-                                        <i class="zmdi zmdi-account-box"></i>
-                                    </div>
-                                    <div class="content">
-                                        <p>Your account has been blocked</p>
-                                        <span class="date">April 12, 2018 06:50</span>
-                                    </div>
-                                </div>
-                                <div class="notifi__item">
-                                    <div class="bg-c3 img-cir img-40">
-                                        <i class="zmdi zmdi-file-text"></i>
-                                    </div>
-                                    <div class="content">
-                                        <p>You got a new file</p>
-                                        <span class="date">April 12, 2018 06:50</span>
-                                    </div>
-                                </div>
-                                <div class="notifi__footer">
-                                    <a href="#">All notifications</a>
-                                </div>
-                            </div>
-                        </div>
+                       
                        
                         <div class="account-wrap">
                             <div class="account-item account-item--style2 clearfix js-item-menu">
@@ -214,21 +189,28 @@
             <nav class="navbar-mobile">
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
-                       <li class="has-sub">
+                          <li class="{{ (Request::path()=='responsable/dashboard' ? 'active' : '') }}">
                                 <a href="{{ url('responsable/dashboard') }}">
                                     <i class="fas fa-home"></i>Accueil
                                     <span class="bot-line"></span>
                                 </a>
                             </li> 
-                            <li class="has-sub">
+                            <li class="{{ (Request::path()=='responsable/gerer_tache' ? 'active' : '') }}">
                                 <a href="{{ url('responsable/gerer_tache') }}">
                                     <i class="fas fa-list"></i>Gestionnaire des taches
                                     <span class="bot-line"></span>
                                 </a>
                             </li> 
+
+                            <li class="{{ (Request::path()=='responsable/list_fournisseurs' ? 'active' : '') }}">
+                                <a href="{{ url('responsable/list_fournisseurs') }}">
+                                    <i class="fas fa-list"></i>Liste des fournisseurs
+                                    <span class="bot-line"></span>
+                                </a>
+                            </li> 
                             
-                            <li class="has-sub">
-                                <a href="#">
+                            <li class="{{ (Request::path()=='responsable/fetch_reclamation_materiel' ? 'active' : '') }}">
+                                <a href="fetch_reclamation_materiel">
                                     <i class="fas fa-file"></i>Gestionnaire des reclamations
                                     <span class="bot-line"></span>
                                 </a>
@@ -242,68 +224,34 @@
         <div class="sub-header-mobile-2 d-block d-lg-none">
             <div class="header__tool">
                 <div class="header-button-item js-item-menu">
-                    <span class="badge">6</span>
+                    @if ($messages->count() <> 0)
+                      <span class="badge bg-red">{{ $messages->count() }}</span>
+                      @else
+                          
+                      @endif
                     <i class="zmdi zmdi-email"></i>
                     <div class="notifi-dropdown notifi-dropdown--no-bor js-dropdown">
-                        <div class="notifi__title">
-                            <p>You have 3 Notifications</p>
-                        </div>
-                        <div class="notifi__item">
+                        @forelse ($messages as $message)
+                        <a href="http://localhost:8000/chatify/{{ $message->from_id }}" class="notifi__item">
                             <div class="bg-c1 img-cir img-40">
                                 <i class="zmdi zmdi-email-open"></i>
                             </div>
                             <div class="content">
-                                <p>You got a email notification</p>
-                                <span class="date">April 12, 2018 06:50</span>
+                                <p>{{ $message->body }} </p>
+                                <span class="date">{{  $message->created_at->diffInMinutes($timenow) ;}} min ago</span>
                             </div>
-                        </div>
+                        </a>
+
+                        @empty
+                       <span> no messages </span>
+                        @endforelse
                        
                         <div class="notifi__footer">
-                            <a href="#">All Messages</a>
+                            <a href="http://localhost:8000/chatify">All Messages</a>
                         </div>
                     </div>
                 </div>
-                <div class="header-button-item  js-item-menu">
-                    <span class="badge">6</span>
-                    <i class="zmdi zmdi-notifications"></i>
-                    <div class="notifi-dropdown notifi-dropdown--no-bor js-dropdown">
-                        <div class="notifi__title">
-                            <p>You have 3 Notifications</p>
-                        </div>
-                        <div class="notifi__item">
-                            <div class="bg-c1 img-cir img-40">
-                                <i class="zmdi zmdi-email-open"></i>
-                            </div>
-                            <div class="content">
-                                <p>You got a email notification</p>
-                                <span class="date">April 12, 2018 06:50</span>
-                            </div>
-                        </div>
-                        <div class="notifi__item">
-                            <div class="bg-c2 img-cir img-40">
-                                <i class="zmdi zmdi-account-box"></i>
-                            </div>
-                            <div class="content">
-                                <p>Your account has been blocked</p>
-                                <span class="date">April 12, 2018 06:50</span>
-                            </div>
-                        </div>
-                        <div class="notifi__item">
-                            <div class="bg-c3 img-cir img-40">
-                                <i class="zmdi zmdi-file-text"></i>
-                            </div>
-                            <div class="content">
-                                <p>You got a new file</p>
-                                <span class="date">April 12, 2018 06:50</span>
-                            </div>
-                        </div>
-                        <div class="notifi__footer">
-                            <a href="#">All notifications</a>
-                        </div>
-                    </div>
-                </div>
-               
-              
+
                 <div class="account-wrap">
                     <div class="account-item account-item--style2 clearfix js-item-menu">
                         <div class="image">

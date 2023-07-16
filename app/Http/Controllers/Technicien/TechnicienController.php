@@ -5,22 +5,35 @@ namespace App\Http\Controllers\Technicien;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Tache;
+use App\Models\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class TechnicienController extends Controller
 {
     public function Accueil(){
-        return view('technicien.dashboard');
+
+        $count_notify = Notification::where('notifiable_id',Auth::user()->id)->count();
+        return view('technicien.dashboard',compact('count_notify'));
+    }
+
+    public function MarkAsRead($id){
+      if ($id) {
+        auth()->user()->unreadNotifications->where('id',$id)->markAsRead();
+      }
+      return back();
     }
 
 
-    public function GestionTache(){
-        $datas = Tache::all();
+    public function showGestionTache(){
 
-        return view('technicien.gestion_tache',compact('datas'));
+        $count_notify = Notification::where('notifiable_id',Auth::user()->id)->count();
+        $datas = Tache::where('user_id',Auth::user()->id)->get();
+
+        return view('technicien.gestion_tache',compact('datas','count_notify'));
     }
 
 
-    public function RepondreTache(Request $request ,$id){
+    public function handleRepondreTache(Request $request ,$id){
         $data = Tache::find($id);
         $file      = $request->file('photo');
         $extension = $file->getClientOriginalExtension();
@@ -29,6 +42,7 @@ class TechnicienController extends Controller
 
         $data->photo = $filename;
         $data->pieces_de_rechange = $request->pieces_de_rechange;
+
 
         $data->save();
 
